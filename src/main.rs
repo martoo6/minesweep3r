@@ -89,7 +89,7 @@ fn ask_location(size: u8) -> Option<(u8, u8)> {
             return None;
         }
         [Ok(x), Ok(y)] => Some((*x, *y)),
-        other => {
+        _ => {
             println!("{:?} does not conform with the format: X Y", input.trim());
             return None;
         }
@@ -102,7 +102,7 @@ fn operate(board: &mut Vec<Vec<Element>>, operation: &Operation, location: (u8, 
     match (operation, current) {
         (FlagOp, Unknown) => board[y as usize][x as usize] = Flag,
         (QuestionMarkOp, Unknown) => board[y as usize][x as usize] = QuestionMark,
-        (Click, Unknown) | (FlagOp, Flag) => click(board, location, solution, state),
+        (Click, Unknown) => click(board, location, solution, state),
         (QuestionMarkOp, QuestionMark) | (FlagOp, Flag) => board[y as usize][x as usize] = Unknown,
         _ => println!("Invalid Operation {:?} for the position {}, {}", operation, x, y)
     }
@@ -173,11 +173,11 @@ fn elem_to_string(elem: &Element) -> String {
 
 fn create_solution(size: usize) -> Vec<Vec<Element>> {
     let mut board = vec![vec![Unknown; size]; size];
-    for i in 0..5 {
+    for _ in 0..5 {
         let mut rng = thread_rng();
 
-        let x = rng.gen_range(0, 8);
-        let y = rng.gen_range(0, 8);
+        let x = rng.gen_range(0, size);
+        let y = rng.gen_range(0, size);
 
         board[y][x] = Element::Mine;
     }
@@ -185,14 +185,14 @@ fn create_solution(size: usize) -> Vec<Vec<Element>> {
         for x in 0..size {
             match board[y][x] {
                 Element::Mine => {},
-                _ => board[y][x] = Number(get_mines(x as i8, y as i8, size as i8, &board))
+                _ => board[y][x] = Number(get_mines(x as i8, y as i8, &board))
             }
         }
     }
     return board;
 }
 
-fn get_mines(x: i8, y: i8, size: i8, board: &Vec<Vec<Element>>) -> u8 {
+fn get_mines(x: i8, y: i8, board: &Vec<Vec<Element>>) -> u8 {
     let mut amount: u8 = 0;
     for xx in -1..=1 {
         for yy in -1..=1 {
