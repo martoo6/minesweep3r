@@ -145,7 +145,7 @@ fn click(board: &mut Vec<Vec<Element>>, location: (u8, u8), solution: &Vec<Vec<E
             board[y as usize][x as usize] = Explosion;
             *state = State::Lose;
         },
-        _ => { println!("{:?} {:?}", guess, real) }
+        _ => { }
     }
 }
 
