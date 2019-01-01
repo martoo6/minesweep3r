@@ -67,10 +67,10 @@ fn ask_operation() -> Option<Operation> {
     println!("Write operation: C (Click), F (Flag), Q (Question Mark)");
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Woops");
-    return match input.trim().as_ref() {
-        "C" => Some(Click),
-        "F" => Some(FlagOp),
-        "Q" => Some(QuestionMarkOp),
+    return match input.trim().to_lowercase().as_ref() {
+        "c" => Some(Click),
+        "f" => Some(FlagOp),
+        "q" => Some(QuestionMarkOp),
         other => {
             println!("{} is not a valid option", other);
             return None;
