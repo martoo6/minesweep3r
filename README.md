@@ -2,4 +2,4 @@
 
 Simple minesweeper implementation in Rust
 
-![screenshot](https://imgur.com/a/8o4cCfQ)
+![Screenshot](https://i.imgur.com/qi4pleE.png)
